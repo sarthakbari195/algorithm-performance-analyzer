@@ -1,0 +1,13 @@
+**/node_modules
+**/__pycache__
+**/.venv
+**/.pytest_cache
+**/.git
+**/.env
+**/dist
+**/results/*.csv
+**/results/*.json
+**/results/*.md
+experiments.db
+backend/experiments.db
+frontend/dist
