@@ -6,7 +6,7 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-class ComplexityEstimator:
+class ComplexityValidator:
     """
     Advanced research-grade complexity estimation using data-driven curve fitting.
     """
@@ -107,3 +107,25 @@ class ComplexityEstimator:
             "fit_scores": {k: round(v, 6) for k, v in fit_stats.items()},
             "theoretical_curve": predicted_times
         }
+
+    @classmethod
+    def validate(cls, results_df: pd.DataFrame) -> pd.DataFrame:
+        """
+        Groups results by algorithm and estimates complexity for each.
+        Returns a summary DataFrame.
+        """
+        summary = []
+        for algo_name, group in results_df.groupby("Algorithm"):
+            # Ensure data is sorted by size
+            sorted_group = group.sort_values("Input Size")
+            sizes = sorted_group["Input Size"].tolist()
+            times = sorted_group["Mean Time (s)"].tolist()
+            
+            estimation = cls.estimate(sizes, times)
+            summary.append({
+                "Algorithm": algo_name,
+                "Empirical Complexity": estimation["estimated_complexity"],
+                "Confidence (%)": estimation["confidence_score"]
+            })
+            
+        return pd.DataFrame(summary)

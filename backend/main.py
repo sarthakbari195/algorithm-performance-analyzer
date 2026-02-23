@@ -18,7 +18,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from core.benchmark_engine import BenchmarkEngine
 from core.dataset_generator import DistributionType
-from core.complexity_validator import ComplexityEstimator
+from core.complexity_validator import ComplexityValidator
 from core.database import DatabaseManager
 from algorithms.sorting import BubbleSort, InsertionSort, MergeSort, QuickSort, HeapSort, TimSort
 from algorithms.searching import LinearSearch, BinarySearch, JumpSearch
@@ -132,7 +132,7 @@ def run_benchmark_task(job_id: str, config: BenchmarkConfig):
             
             # Analyze complexity if we have enough points
             if len(sizes) >= 4:
-                analysis = ComplexityEstimator.estimate(
+                analysis = ComplexityValidator.estimate(
                     [m.input_size for m in algo_metrics],
                     [m.mean_time for m in algo_metrics]
                 )
